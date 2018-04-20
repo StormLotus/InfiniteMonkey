@@ -179,18 +179,13 @@ class Population():
 
 # Main window for curses
 def main(stdscr):
+	global args
+
 	# Clear screen
 	stdscr.clear()
 
 	# Running algorithm
 	random.seed()
-
-	# Parse arguments.
-	parser = argparse.ArgumentParser(description='Genetic algorithm tests.')
-	parser.add_argument('target')
-	parser.add_argument('mutation_rate')
-	parser.add_argument('size')
-	args = parser.parse_args()
 
 	# Create an initial population.
 	population = Population(args.target, float(args.mutation_rate), int(args.size))
@@ -200,7 +195,7 @@ def main(stdscr):
 	stdscr.addstr(1, 0, 'Total generations: ')
 	stdscr.addstr(2, 0, 'Average fitness: ')
 	stdscr.addstr(3, 0, 'Population: ' + str(args.size))
-	stdscr.addstr(4, 0, 'Mutation rate: ' + str(int(float(args.mutation_rate)*100)) + '%')
+	stdscr.addstr(4, 0, 'Mutation rate: ' + str(float(args.mutation_rate)*100) + '%')
 	stdscr.addstr(5,0, '------------')
 	stdscr.addstr(6,0, 'Best: ')
 	stdscr.addstr(7,0, '------------')
@@ -233,5 +228,12 @@ def main(stdscr):
 			break
 
 	stdscr.getkey()
+
+# Parse arguments.
+parser = argparse.ArgumentParser(description='Genetic algorithm tests.')
+parser.add_argument('target', type=str, help='Target for the genetic algorithm.')
+parser.add_argument('mutation_rate', type=float, help='Mutation rate.')
+parser.add_argument('size', type=int, help='Population size.')
+args = parser.parse_args()
 
 wrapper(main)
